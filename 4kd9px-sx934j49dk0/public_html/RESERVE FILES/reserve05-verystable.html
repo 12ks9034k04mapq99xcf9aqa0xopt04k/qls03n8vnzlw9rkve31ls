@@ -1,0 +1,489 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0"><title>Project AdvanceM</title><noscript>Tranpage Needs Javascript To Run</noscript></head><body>
+<script>
+//=========================================================================
+//=========================== INITIALIZATION ==============================
+//=========================================================================
+    window.onload = function() {
+        document.body.setAttribute("id", "thebody"); //SHORTCUT = st.d.b
+        dom.ac("thebody");
+        dom.co(st.h.dv, st.d.mi); //SHORTCUT = sid
+        dom.us(st.h.br,"",st.d.b);
+        dom.co(st.h.dv,st.d.mlg);
+        rv.cr();
+        setInterval(sys.resize,500);
+    };
+//=========================================================================
+//==================== VARS = VARIABLES FOR SYSTEM ========================
+//=========================================================================
+    (function(window){
+        var vars = {
+            windowsize: 0,
+            tawidth: "20em",
+            taheight: "5em",
+            currentrv: 0,
+            input: "",
+            library: "",
+            log: "",
+            logpresent: false,
+            logopen: false,
+            rvhd: false, //Tells if the receiver is hidden or unhidden
+            loghd: false //Tells if the log is hidden or unhidden
+        };
+        if(typeof(window.vars)==="undefined"){window.vars = vars;};
+    })(window);
+//=========================================================================
+//=================== SHORTCUT FOR COMMON STRINGS =========================
+//=========================================================================
+    (function(window){
+        var st = {};
+        st.d = {b:"thebody", mi:"maininputdiv",ba:"buttonarea", rv:"recieverdiv", lr:"librarydiv", lg:"logdiv", mlg:"malogdiv"};
+        st.h = {dv:"DIV",bn:"BUTTON",in:"INPUT",ta:"TEXTAREA",p:"P",h1:"H1",br:"BR"};
+        st.a = {oc:"onclick"};
+        st.s = {ta:"textAlign", dp:"display", bg:"backgroundColor", co:"color",mg:"margin", fs:"fontSize",sz:"size",pd:"padding"};
+        if(typeof(window.st)==="undefined"){window.st = st;};
+    })(window); 
+//=========================================================================
+//======================== LIBRARY INTERFACE ==============================
+//=========================================================================
+    (function(window){
+         function lrfunctions() {
+             var f = {};
+             //ls = Library Start
+            f.ls = function() {
+                vars.input = dom.gv("rv.i");
+                lr.li();
+            };
+            //li = Library Interface
+            f.li = function () {
+                    dom.ac(st.d.mi);
+                    dom.us(st.h.dv, st.d.lr, st.d.mi); //Create RECIEVER division ssd = "securitydivision"
+                    dom.s(st.d.b,st.s.ta,"center");
+                    dom.s(st.d.mi,st.s.dp,"inline-block");
+                    dom.s(st.d.lr,st.s.pd,"3px");
+                    dom.us(st.h.ta, "srv.i",st.d.lr);
+                    dom.s("srv.i", "width", vars.tawidth); dom.s("srv.i", "height", vars.taheight); 
+                    dom.s(st.d.lr, st.s.bg, "black");dom.s("srv.i", "backgroundColor", "black"); dom.s("srv.i", "color", "white");
+                    dom.us(st.h.br,"",st.d.lr);
+                    dom.uca(st.h.bn, "sga", "Start", st.d.lr, st.a.oc, "lr.le()");
+                    dom.s("sga","padding", "2px");
+                    dom.s("sga","margin", "2px");
+                    dom.s("sga", "backgroundColor", "black");
+                    dom.s("sga", "color", "white");
+                    dom.uca(st.h.bn, "lc", "Clear", st.d.lr, st.a.oc, "lr.lc()");
+                    dom.s("lc","padding", "2px");
+                    dom.s("lc","margin", "2px");
+                    dom.s("lc", "backgroundColor", "black");
+                    dom.s("lc", "color", "white");
+                    dom.uca(st.h.bn, "lr", "Reload", st.d.lr, st.a.oc, "lr.lr()");
+                    dom.s("lr","padding", "2px");
+                    dom.s("lr","margin", "2px");
+                    dom.s("lr", "backgroundColor", "black");
+                    dom.s("lr", "color", "white");
+                    dom.uca(st.h.bn, "lh", "Hide", st.d.lr, st.a.oc, "lr.lh()");
+                    dom.s("lh","padding", "2px");
+                    dom.s("lh","margin", "2px");
+                    dom.s("lh", "backgroundColor", "black");
+                    dom.s("lh", "color", "white");
+                    dom.uca(st.h.bn, "llog", "Log", st.d.lr, st.a.oc, "log.open()");
+                    dom.s("llog","padding", "2px");
+                    dom.s("llog","margin", "2px");
+                    dom.s("llog", "backgroundColor", "black");
+                    dom.s("llog", "color", "white");
+                    var prevlib = dom.g("srv.i"); prevlib.value = vars.library;
+                    vars.currentrv = 2;
+		};
+		//le = Library Enter
+		f.le = function() {
+			vars.library = document.getElementById("srv.i").value;
+			rv.cr();
+			var rvi = dom.g("rv.i");
+			rvi.value = vars.input;
+		};
+		//lc = Library Clear
+		f.lc = function() {
+                        var reload = dom.g("srv.i");
+                        reload.value = "";
+                        vars.library = dom.gv("srv.i");
+		};
+                //lr = Library Reload
+		f.lr = function() {
+                        var reload = dom.g("srv.i");
+                        reload.value = vars.library;
+		};
+                //lh = Library Hide
+		f.lh = function () {
+                    if (vars.rvhd === false) {
+                        vars.rvhd = true;
+                        vars.library = dom.gv("srv.i");
+                        dom.ac(st.d.mi);
+                        dom.uca(st.h.bn, "lr.lh", "Unhide", st.d.mi, st.a.oc, "lr.lu()");
+                    };
+                };
+                //lu = Library Unhide
+                f.lu = function () {
+                    if (vars.rvhd === true) {
+                        vars.rvhd = false;
+                        dom.ac(st.d.mi);
+                        lr.li();
+                    };
+                };
+                
+                return f;
+         };
+        
+        if (typeof(window.lr)=== "undefined") {window.lr = lrfunctions();};
+    })(window);
+//=========================================================================
+//========================= RECIEVER INTERFACE ============================
+//=========================================================================
+    (function(window){
+        function rvfunctions() {
+            var f = {};
+            f.cr = function () {
+                dom.ac(st.d.mi);
+                dom.us(st.h.dv, st.d.rv, st.d.mi); //Create RECIEVER division
+                dom.s(st.d.b,st.s.ta,"center");
+                dom.s(st.d.mi,st.s.dp,"inline-block");
+                dom.s(st.d.rv,st.s.pd,"2px");
+                dom.us(st.h.ta, "rv.i",st.d.rv);
+                dom.s("rv.i", "width", vars.tawidth); dom.s("rv.i", "height", vars.taheight);
+                dom.s(st.d.rv, st.s.bg, "black"); dom.s("rv.i", "backgroundColor", "black"); dom.s("rv.i", "color", "white");
+                dom.us(st.h.br,"",st.d.rv);
+                dom.us(st.h.dv, st.d.ba, st.d.rv);
+                rv.btns();
+                vars.currentrv = 1;
+                //Reload Any Previous Inputs
+                // Always this put on the last part.
+                // Any code below this reload part will not work.
+                var reload = dom.g("rv.i");
+                reload.value = vars.input;
+                /////////////////////////
+            };
+            f.msg = function() {
+                //vars.input = dom.gv("rv.i");
+                dom.ac(st.d.rv);
+                dom.uc(st.h.p, "message", "Executing Code...", st.d.rv);
+                dom.s("message", "color", "white");
+                dom.s("message","padding", "8px");
+            };
+            f.btns = function() { 
+                dom.ac(st.d.ba);
+                dom.uca(st.h.bn, "rvex", "Compile", st.d.ba, st.a.oc, "rv.ex()");
+                dom.s("rvex","padding", "2px");
+                dom.s("rvex","margin", "2px");
+		dom.s("rvex", "backgroundColor", "black");
+		dom.s("rvex", "color", "white");
+                dom.uca(st.h.bn, "rvcl", "Clear", st.d.ba, st.a.oc, "rv.cl()");
+                dom.s("rvcl","padding", "2px");
+                dom.s("rvcl","margin", "2px");
+		dom.s("rvcl", "backgroundColor", "black");
+		dom.s("rvcl", "color", "white");
+		dom.uca(st.h.bn, "rvrl", "Reload",st.d.ba, st.a.oc, "rv.rl()");
+                dom.s("rvrl","padding", "2px");
+                dom.s("rvrl","margin", "2px");
+		dom.s("rvrl", "backgroundColor", "black");
+		dom.s("rvrl", "color", "white");
+                dom.uca(st.h.bn, "rvhd", "Hide", st.d.ba, st.a.oc, "rv.hd()");
+                dom.s("rvhd","padding", "2px");
+		dom.s("rvhd","margin", "2px");
+		dom.s("rvhd", "backgroundColor", "black");
+		dom.s("rvhd", "color", "white");
+		dom.uca(st.h.bn, "rvlb", "Library", st.d.ba, st.a.oc, "lr.ls()");
+                dom.s("rvlb","padding", "2px");
+                dom.s("rvlb","margin", "2px");
+		dom.s("rvlb", "backgroundColor", "black");
+		dom.s("rvlb", "color", "white");
+                dom.uca(st.h.bn, "rvlog", "Log",st.d.ba, st.a.oc, "log.open()");
+                dom.s("rvlog","padding", "2px");
+                dom.s("rvlog","margin", "2px");
+		dom.s("rvlog", "backgroundColor", "black");
+		dom.s("rvlog", "color", "white");
+            };
+            f.ex = function () {
+                vars.input = dom.gv("rv.i");
+                var data = dom.gv("rv.i");
+                var txt0 = " ";
+                var txt1 = "rv.msg();setTimeout(function(){rv.cr();";
+                var txt2 = "},1000);";
+                var txt3 = txt0.concat(data);
+                var txt4 = txt1.concat(vars.library);
+                var txt5 = txt4.concat(txt3);
+                var txt6 = txt5.concat(txt2);
+                vars.input = dom.gv("rv.i");
+                dom.ac(st.d.rv);
+                dom.us(st.h.dv, st.d.ba, st.d.rv);
+                dom.s(st.d.ba,"margin", "5px");
+                dom.uca(st.h.bn, "rvex", "Execute", st.d.ba, st.a.oc, txt6);
+		dom.s("rvex","padding", "3px");
+                dom.s("rvex","margin", "2px");
+		dom.s("rvex", "backgroundColor", "black");
+		dom.s("rvex", "color", "white");
+		dom.uca(st.h.bn, "rvbk", "Back", st.d.ba, st.a.oc, "rv.cr();");
+		dom.s("rvbk","padding", "3px");
+                dom.s("rvbk","margin", "2px");
+		dom.s("rvbk", "backgroundColor", "black");
+		dom.s("rvbk", "color", "white");
+            };
+            f.cl = function () {
+                var reload = dom.g("rv.i");
+                reload.value = "";
+                vars.input = dom.gv("rv.i");
+            };
+            f.rl = function () {
+                var reload = dom.g("rv.i");
+                reload.value = vars.input;
+            };
+            f.hd = function () {
+                if (vars.rvhd === false) {
+                    vars.rvhd = true;
+                    var rvi = dom.g("rv.i");
+                    vars.input = rvi.value;
+                    dom.ac(st.d.mi);
+                    dom.uca(st.h.bn, "rv.uh", "Unhide", st.d.mi, st.a.oc, "rv.uh()");
+                };
+            };
+            f.uh = function () {
+                if (vars.rvhd === true) {
+                    vars.rvhd = false;
+                    dom.ac(st.d.mi);
+                    rv.cr();
+                    var reload = dom.g("rv.i");
+                    reload.value = vars.input;
+                };
+            };
+            
+            return f;
+        };
+        
+        if(typeof(window.rv)==="undefined") {window.rv = rvfunctions();};
+    })(window);
+//=========================================================================
+//============================ LOG INTERFACE ==============================
+//=========================================================================
+    (function(window){
+        function logfunctions() {
+            var f = {};
+            //dom.co(st.h.dv,"logdivision"); //Shortcut >> sld
+            f.w = function(text) {
+                var write; var message;
+                    
+                if(vars.logopen === false) {
+                    log.open();
+                };
+                if (vars.loghd === false) {
+                    write = dom.g("log.i");
+                    if (vars.log.length === 0) {
+                        message = vars.log.concat(text);
+                    }else if (vars.log.length !== 0) {
+                        message = vars.log.concat("\n" + text);
+                    };
+                    write.value = message;
+                    vars.log = message;
+                }else if (vars.loghd === true) {
+                    if (vars.log.length === 0) {
+                        message = vars.log.concat(text);
+                    }else if (vars.log.length !== 0) {
+                        message = vars.log.concat("\n" + text);
+                    };
+                    vars.log = message;
+                };
+               
+            };
+            f.open = function() {
+                if(vars.logopen === false) {
+                    dom.ac(st.d.mlg);
+                    dom.us(st.h.dv, st.d.lg, st.d.mlg);
+                    dom.ac(st.d.lg);
+                    dom.s(st.d.b,st.s.ta,"center");
+                    dom.s(st.d.lg,st.s.dp,"inline-block");
+                    dom.s(st.d.lg,st.s.pd,"3px");
+                    dom.s(st.d.lg,"margin","5px");
+                    dom.us(st.h.ta, "log.i",st.d.lg);
+                    dom.s("log.i", "width", vars.tawidth); dom.s("log.i", "height", vars.taheight); 
+                    dom.s(st.d.lg, st.s.bg, "black");dom.s("log.i", "backgroundColor", "black"); dom.s("log.i", "color", "white");
+                    dom.us(st.h.br,"",st.d.lg);
+                    dom.uca(st.h.bn, "logclose", "Close", st.d.lg, st.a.oc, "log.close()");
+                    dom.s("logclose","padding", "2px");
+                    dom.s("logclose","margin", "2px");
+                    dom.s("logclose", "backgroundColor", "black");
+                    dom.s("logclose", "color", "white");
+                    dom.uca(st.h.bn, "logc", "Clear", st.d.lg, st.a.oc, "log.clear()");
+                    dom.s("logc","padding", "2px");
+                    dom.s("logc","margin", "2px");
+                    dom.s("logc", "backgroundColor", "black");
+                    dom.s("logc", "color", "white");
+                    dom.uca(st.h.bn, "logr", "Reload", st.d.lg, st.a.oc, "log.reload()");
+                    dom.s("logr","padding", "2px");
+                    dom.s("logr","margin", "2px");
+                    dom.s("logr", "backgroundColor", "black");
+                    dom.s("logr", "color", "white");
+                    dom.uca(st.h.bn, "logh", "Hide", st.d.lg, st.a.oc, "log.hide()");
+                    dom.s("logh","padding", "2px");
+                    dom.s("logh","margin", "2px");
+                    dom.s("logh", "backgroundColor", "black");
+                    dom.s("logh", "color", "white");
+                    var previnput = dom.g("log.i"); previnput.value = vars.log;
+                    vars.logpresent = true;
+                    vars.logopen = true;
+                };
+            };
+            f.close = function() {
+                dom.ac(st.d.mlg);
+                vars.logpresent = false;
+                vars.logopen = false;
+            };
+            f.clear = function () {
+                var reload = dom.g("log.i");
+                reload.value = "";
+                vars.log = dom.gv("log.i");
+            };
+            f.reload = function () {
+                var reload = dom.g("log.i");
+                reload.value = vars.log;
+            };
+            f.hide = function () {
+                if (vars.loghd === false) {
+                    vars.loghd = true;
+                    var logi = dom.g("log.i");
+                    vars.log = logi.value;
+                    dom.ac(st.d.mlg);
+                    dom.uca(st.h.bn, "log.uh", "Log Unhide", st.d.mlg, st.a.oc, "log.unhide()");
+					dom.s("log.uh","margin","3px");
+                };
+            };
+            f.unhide = function () {
+                if (vars.loghd === true) {
+                    vars.loghd = false;
+                    dom.ac(st.d.mlg);
+                    vars.logopen = false;
+                    log.open();
+                    var reload = dom.g("log.i");
+                    reload.value = vars.log;
+                };
+            };
+            
+            return f;
+        };
+        
+        if(typeof(window.log)==="undefined") {window.log = logfunctions();};
+    })(window);    
+//=========================================================================
+//========================== INTERNAL SYSTEMS =============================
+//=========================================================================
+    (function(window){
+        function sysfunctions() {
+            var f = {};
+            
+            f.resize = function() {
+                var getw = window.innerWidth;
+                if (getw !== vars.windowsize) {
+                    vars.windowsize = getw;
+                    var w = getw / 20;
+                    var h = getw / 80;
+                    if (w > 35) {w = 35;};
+                    if (h < 6) {
+                        h = 6;
+                    }else if (h > 9) {
+                        h = 9;
+                    };	
+                    var tw = w.toString();
+                    var th = h.toString();
+                    var t1 = "em";
+                    var t2 = tw.concat(t1);
+                    var t3 = th.concat(t1);
+                    vars.tawidth = t2;
+                    vars.taheight = t3;
+                    var tagetvalue;
+                    var tavalue;
+                    if (vars.logpresent === true && vars.loghd === false) {
+                        tagetvalue = dom.g("log.i");
+                        tavalue = tagetvalue.value;
+                        vars.logopen = false;
+                        log.open();
+                        tagetvalue = dom.g("log.i");
+                        tagetvalue.value = tavalue;
+                    };
+                    if (vars.currentrv === 1) {
+                        tagetvalue = dom.g("rv.i");
+                        tavalue = tagetvalue.value;
+                        rv.cr();
+                        tagetvalue = dom.g("rv.i");
+                        tagetvalue.value = tavalue;
+                    }else if (vars.currentrv === 2) {
+                        tagetvalue = dom.g("srv.i");
+                        tavalue = tagetvalue.value;
+                        lr.li();
+                        tagetvalue = dom.g("srv.i");
+                        tagetvalue.value = tavalue;
+                    };
+                };
+            };
+            
+            return f;
+        };
+        if (typeof(window.sys)==="undefined"){window.sys = sysfunctions();};
+    })(window);
+//=========================================================================
+//====================== DOCUMENT OBJECT MODEL LIBRARY ====================
+//=========================================================================
+    (function(window){
+        function domfunctions() {
+            var f = {};
+            //g = getElementById
+            f.g = function(id) {var a = document.getElementById(id); return a;};
+            //gv = getElementById.value
+            f.gv = function(id) {var a = document.getElementById(id).value; return a;};
+            //gi = getElementById.innerHTML
+            f.gi = function(id,value) {var a = document.getElementById(id).innerHTML = value; return a;};
+            //All Clear
+            f.ac = function(id) {var a = document.getElementById(id); while (a.hasChildNodes()){a.removeChild(a.firstChild);};};
+            //COntainer
+            f.co = function (type, id) {var a = document.createElement(type); a.setAttribute("id", id); document.body.appendChild(a);};
+            // Simple
+            f.us = function (type,id,attach) {var a = document.createElement(type); var c = document.getElementById(attach); a.setAttribute("id",id); c.appendChild(a);};
+            // Complex
+            f.uc = function (type,id,text,attach) {var a = document.createElement(type); var b = document.createTextNode(text); var c = document.getElementById(attach); a.setAttribute("id",id); a.appendChild(b); c.appendChild(a);};
+            //Complex + Advance Functions
+            f.uca = function (type,id,text,attach,action,func) {var a = document.createElement(type); var b = document.createTextNode(text); var c = document.getElementById(attach); a.setAttribute("id",id); a.setAttribute(action,func); a.appendChild(b); c.appendChild(a);};
+            //Attribute
+            f.a = function (id,type,value) {var a = document.getElementById(id); a.setAttribute(type,value);};
+            //Styles
+            f.s = function (elementid, theproperty, value) {
+                var a = document.getElementById(elementid); 
+                switch (theproperty) {
+                    // ADD CSS ELEMENTS HERE
+                    case "color": a.style.color = value; break;
+                    case "textAlign": a.style.textAlign = value; break;
+                    case "display": a.style.display = value; break;
+                    case "backgroundColor": a.style.backgroundColor = value; break;
+                    case "size": a.style.size = value; break;
+                    case "margin": a.style.margin = value; break;
+                    case "marginTop": a.style.marginTop = value; break;
+                    case "marginBottom": a.style.marginBottom = value; break;
+                    case "marginLeft": a.style.marginLeft = value; break;
+                    case "marginRight": a.style.marginRight = value; break;
+                    case "padding": a.style.padding = value; break;
+                    case "paddingTop": a.style.paddingTop = value; break;
+                    case "paddingBottom": a.style.paddingBottom = value; break;
+                    case "paddingLeft": a.style.paddingLeft = value; break;
+                    case "paddingRight": a.style.paddingRight = value; break;
+                    case "fontSize": a.style.fontSize = value; break;
+                    case "width": a.style.width = value; break;
+                    case "height": a.style.height = value; break;
+                    //============================
+                    default: alert("property not found");
+                }; 
+            };
+            
+            return f;
+        };
+        
+        if(typeof(window.dom)==='undefined') {window.dom = domfunctions();};
+        
+    })(window);
+//=========================================================================
+//======================== END OF JAVASCRIPT ==============================
+//=========================================================================
+</script>
+</body>
+</html>

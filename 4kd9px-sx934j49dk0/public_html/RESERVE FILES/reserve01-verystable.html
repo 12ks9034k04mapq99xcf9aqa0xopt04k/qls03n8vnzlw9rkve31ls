@@ -1,0 +1,314 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0"><title>Project AdvanceM</title><noscript>Tranpage Needs Javascript To Run</noscript></head><body>
+<script>
+//=========================================================================
+//================== FUNCTIONS: TRANPAGE INITIALIZATION ===================
+//=========================================================================
+    window.onload = function() {
+        document.body.setAttribute("id", "thebody"); //SHORTCUT = sb
+        dom.ac("thebody");
+        dom.co(sh.dv, "maininputdivision"); //SHORTCUT = sid
+        rv.li();
+		setInterval(resize,500);
+    };
+//=========================================================================
+//==================== FUNCTIONS: TRANPAGE RECIEVER =======================
+//=========================================================================
+    var rv = {
+        windowsize: 0,
+        tawidth: "20em",
+	taheight: "5em",
+	currentrv: 0,
+        rvinput: "",
+	library: "",
+        rvhd: false, //Tells if the receiver is hidden or unhidden
+        cr: function () {
+            dom.ac(sid);
+            dom.us(sh.dv, srd, sid); //Create RECIEVER division
+            dom.s(sb,ss.ta,"center");
+            dom.s(sid,ss.dp,"inline-block");
+            dom.s(srd,ss.pd,"2px");
+            dom.us(sh.ta, "rv.i",srd);
+            dom.s("rv.i", "width", rv.tawidth); dom.s("rv.i", "height", rv.taheight);
+            dom.s(srd, ss.bg, "black"); dom.s("rv.i", "backgroundColor", "black"); dom.s("rv.i", "color", "white");
+            dom.us(sh.br,"",srd);
+            dom.us(sh.dv, sba, srd);
+            rv.btns();
+            rv.currentrv = 1;
+            //Reload Any Previous Inputs
+            // Always this put on the last part.
+            // Any code below this reload part will not work.
+            var reload = dom.g("rv.i");
+            reload.value = rv.rvinput;
+            /////////////////////////
+        },
+        msg: function() {
+            rv.rvinput = dom.gv("rv.i");
+            dom.ac(srd);
+            dom.uc(sh.p, "message", "Executing Code...", srd);
+            dom.s("message", "color", "white");
+        },
+        btns: function() { 
+            dom.ac(sba);
+            dom.uca(sh.bn, "rvex", "Compile", sba, sa.oc, "rv.ex()");
+            dom.s("rvex","padding", "2px");
+            dom.s("rvex","margin", "2px");
+			dom.s("rvex", "backgroundColor", "black");
+			dom.s("rvex", "color", "white");
+            dom.uca(sh.bn, "rvcl", "Clear", sba, sa.oc, "rv.cl()");
+            dom.s("rvcl","padding", "2px");
+            dom.s("rvcl","margin", "2px");
+			dom.s("rvcl", "backgroundColor", "black");
+			dom.s("rvcl", "color", "white");
+			dom.uca(sh.bn, "rvrl", "Reload", sba, sa.oc, "rv.rl()");
+            dom.s("rvrl","padding", "2px");
+            dom.s("rvrl","margin", "2px");
+			dom.s("rvrl", "backgroundColor", "black");
+			dom.s("rvrl", "color", "white");
+            dom.uca(sh.bn, "rvhd", "Hide", sba, sa.oc, "rv.hd()");
+            dom.s("rvhd","padding", "2px");
+			dom.s("rvhd","margin", "2px");
+			dom.s("rvhd", "backgroundColor", "black");
+			dom.s("rvhd", "color", "white");
+			dom.uca(sh.bn, "rvlb", "Library", sba, sa.oc, "rv.ls()");
+            dom.s("rvlb","padding", "2px");
+            dom.s("rvlb","margin", "2px");
+			dom.s("rvlb", "backgroundColor", "black");
+			dom.s("rvlb", "color", "white");
+			
+        },
+        ex: function () {
+		
+            rv.rvinput = dom.gv("rv.i");
+			
+            var data = dom.gv("rv.i");
+            var txt0 = " ";
+            var txt1 = "rv.msg();setTimeout(function(){rv.cr();";
+            var txt2 = "},1000);";
+            var txt3 = txt0.concat(data);
+            var txt4 = txt1.concat(rv.library);
+            var txt5 = txt4.concat(txt3);
+            var txt6 = txt5.concat(txt2);
+            dom.ac(sba);
+            dom.uca(sh.bn, "rvex", "Execute", sba, sa.oc, txt6);
+			dom.s("rvex","padding", "2px");
+            dom.s("rvex","margin", "2px");
+			dom.s("rvex", "backgroundColor", "black");
+			dom.s("rvex", "color", "white");
+			dom.uca(sh.bn, "rvbk", "Back", sba, sa.oc, "rv.cr();");
+			dom.s("rvbk","padding", "2px");
+            dom.s("rvbk","margin", "2px");
+			dom.s("rvbk", "backgroundColor", "black");
+			dom.s("rvbk", "color", "white");
+        },
+        cl: function () {
+            var reload = dom.g("rv.i");
+            reload.value = "";
+            rv.rvinput = dom.gv("rv.i");
+        },
+		rl: function () {
+            var reload = dom.g("rv.i");
+            reload.value = rv.rvinput;
+        },
+        hd: function () {
+            if (rv.rvhd === false) {
+                rv.rvhd = true;
+                var rvi = dom.g("rv.i");
+			    rv.rvinput = rvi.value;
+                dom.ac(sid);
+                dom.uca(sh.bn, "rv.uh", "Unhide", sid, sa.oc, "rv.uh()");
+            };
+        },
+        uh: function () {
+            if (rv.rvhd === true) {
+                rv.rvhd = false;
+                dom.ac(sid);
+                rv.cr();
+				var reload = dom.g("rv.i");
+				reload.value = rv.rvinput;
+	
+            };
+        },
+		//ls = Library Start
+		ls: function() {
+			rv.rvinput = dom.gv("rv.i");
+			rv.li();
+		},
+		//li = Library Interface
+		li: function () {
+			dom.ac(sid);
+			dom.us(sh.dv, ssd, sid); //Create RECIEVER division ssd = "securitydivision"
+			dom.s(sb,ss.ta,"center");
+			dom.s(sid,ss.dp,"inline-block");
+			dom.s(ssd,ss.pd,"3px");
+			dom.us(sh.ta, "srv.i",ssd);
+			dom.s("srv.i", "width", rv.tawidth); dom.s("srv.i", "height", rv.taheight); 
+			dom.s(ssd, ss.bg, "black");dom.s("srv.i", "backgroundColor", "black"); dom.s("srv.i", "color", "white");
+			dom.us(sh.br,"",ssd);
+			dom.uca(sh.bn, "sga", "Start", ssd, sa.oc, "rv.le()");
+			dom.s("sga","padding", "2px");
+			dom.s("sga","margin", "2px");
+			dom.s("sga", "backgroundColor", "black");
+			dom.s("sga", "color", "white");
+			dom.uca(sh.bn, "lc", "Clear", ssd, sa.oc, "rv.lc()");
+			dom.s("lc","padding", "2px");
+			dom.s("lc","margin", "2px");
+			dom.s("lc", "backgroundColor", "black");
+			dom.s("lc", "color", "white");
+			dom.uca(sh.bn, "lr", "Reload", ssd, sa.oc, "rv.lr()");
+			dom.s("lr","padding", "2px");
+			dom.s("lr","margin", "2px");
+			dom.s("lr", "backgroundColor", "black");
+			dom.s("lr", "color", "white");
+			dom.uca(sh.bn, "lh", "Hide", ssd, sa.oc, "rv.lh()");
+			dom.s("lh","padding", "2px");
+			dom.s("lh","margin", "2px");
+			dom.s("lh", "backgroundColor", "black");
+			dom.s("lh", "color", "white");
+			var prevlib = dom.g("srv.i"); prevlib.value = rv.library;
+			rv.currentrv = 2;
+		},
+		//le = Library Enter
+		le: function() {
+			rv.library = document.getElementById("srv.i").value;
+			rv.cr();
+			var rvi = dom.g("rv.i");
+			rvi.value = rv.rvinput;
+		},
+		//lc = Library Clear
+		lc: function() {
+			 var reload = dom.g("srv.i");
+            reload.value = "";
+            rv.library = dom.gv("srv.i");
+		},
+		lr: function() {
+			 var reload = dom.g("srv.i");
+            reload.value = rv.library;
+		},
+		lh: function () {
+            if (rv.rvhd === false) {
+                rv.rvhd = true;
+                rv.library = dom.gv("srv.i");
+                dom.ac(sid);
+                dom.uca(sh.bn, "rv.lh", "Unhide", sid, sa.oc, "rv.lu()");
+            };
+        },
+        lu: function () {
+            if (rv.rvhd === true) {
+                rv.rvhd = false;
+                dom.ac(sid);
+                rv.li();
+            };
+        }
+    };
+//=========================================================================
+//======== FUNCTIONS: RESIZE TEXTAREA =======
+//=========================================================================
+
+function resize() {
+	var getw = window.innerWidth;
+	if (getw !== rv.windowsize) {
+		rv.windowsize = getw;
+		var w = getw / 20;
+		var h = getw / 80;
+		if (w > 35) {
+			w = 35;
+		};
+		if (h < 6) {
+			h = 6;
+		}else if (h > 9) {
+			h = 9;
+		};	
+		var tw = w.toString();
+		var th = h.toString();
+		var t1 = "em";
+		var t2 = tw.concat(t1);
+		var t3 = th.concat(t1);
+		rv.tawidth = t2;
+		rv.taheight = t3;
+		var tagetvalue;
+		var tavalue;
+		var taloadvalue;
+		if (rv.currentrv === 1) {
+			tagetvalue = dom.g("rv.i");
+            tavalue = tagetvalue.value;
+			rv.cr();
+			tagetvalue = dom.g("rv.i");
+            tagetvalue.value = tavalue;
+		}else if (rv.currentrv === 2) {
+			tagetvalue = dom.g("srv.i");
+            tavalue = tagetvalue.value;
+			rv.li();
+			tagetvalue = dom.g("srv.i");
+            tagetvalue.value = tavalue;
+		};
+	};
+};
+//=========================================================================
+//======== FUNCTIONS: TRANPAGE DOCUMENT OBJECT MANIPULATION LIBRARY =======
+//=========================================================================
+    (function(window){
+        function domfunctions() {
+            var f = {};
+            //g = getElementById
+            f.g = function(id) {var a = document.getElementById(id); return a;};
+            //gv = getElementById.value
+            f.gv = function(id) {var a = document.getElementById(id).value; return a;};
+            //gi = getElementById.innerHTML
+            f.gi = function(id,value) {var a = document.getElementById(id).innerHTML = value; return a;};
+            //All Clear
+            f.ac = function(id) {var a = document.getElementById(id); while (a.hasChildNodes()){a.removeChild(a.firstChild);};};
+            //COntainer
+            f.co = function (type, id) {var a = document.createElement(type); a.setAttribute("id", id); document.body.appendChild(a);};
+            // Simple
+            f.us = function (type,id,attach) {var a = document.createElement(type); var c = document.getElementById(attach); a.setAttribute("id",id); c.appendChild(a);};
+            // Complex
+            f.uc = function (type,id,text,attach) {var a = document.createElement(type); var b = document.createTextNode(text); var c = document.getElementById(attach); a.setAttribute("id",id); a.appendChild(b); c.appendChild(a);};
+            //Complex + Advance Functions
+            f.uca = function (type,id,text,attach,action,func) {var a = document.createElement(type); var b = document.createTextNode(text); var c = document.getElementById(attach); a.setAttribute("id",id); a.setAttribute(action,func); a.appendChild(b); c.appendChild(a);};
+            //Attribute
+            f.a = function (id,type,value) {var a = document.getElementById(id); a.setAttribute(type,value);};
+            //Styles
+            f.s = function (elementid, theproperty, value) {
+                var a = document.getElementById(elementid); 
+                switch (theproperty) {
+                    // ADD CSS ELEMENTS HERE
+                    case "color": a.style.color = value; break;
+                    case "textAlign": a.style.textAlign = value; break;
+                    case "display": a.style.display = value; break;
+                    case "backgroundColor": a.style.backgroundColor = value; break;
+                    case "size": a.style.size = value; break;
+                    case "margin": a.style.margin = value; break;
+                    case "marginTop": a.style.marginTop = value; break;
+                    case "marginBottom": a.style.marginBottom = value; break;
+                    case "marginLeft": a.style.marginLeft = value; break;
+                    case "marginRight": a.style.marginRight = value; break;
+                    case "padding": a.style.padding = value; break;
+                    case "paddingTop": a.style.paddingTop = value; break;
+                    case "paddingBottom": a.style.paddingBottom = value; break;
+                    case "paddingLeft": a.style.paddingLeft = value; break;
+                    case "paddingRight": a.style.paddingRight = value; break;
+                    case "fontSize": a.style.fontSize = value; break;
+                    case "width": a.style.width = value; break;
+                    case "height": a.style.height = value; break;
+                    //============================
+                    default: alert("property not found");
+                }; 
+            };
+            
+            return f;
+        };
+        
+        if(typeof(window.dom)==='undefined') {window.dom = domfunctions();};
+        
+    })(window);
+    //SHORTCUT FOR COMMON STRINGS
+    var sb = "thebody"; var sid = "maininputdivision"; var sod = "mainoutputdivision"; var sba = "buttonarea"; var srd = "recieverdivision"; var ssd = "securitydivision";
+    var sh = {dv:"DIV",bn:"BUTTON",in:"INPUT",ta:"TEXTAREA",p:"P",h1:"H1",br:"BR"};
+    var sa = {oc:"onclick"};
+    var ss = {ta:"textAlign", dp:"display", bg:"backgroundColor", co:"color",mg:"margin", fs:"fontSize",sz:"size",pd:"padding"};  
+//=========================================================================
+//=========================== END OF JAVASCRIPT ===========================
+//=========================================================================
+</script>
+</body>
+</html>
